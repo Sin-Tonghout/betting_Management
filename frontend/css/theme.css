@@ -1,0 +1,23 @@
+/* Light theme = the defaults already set in variables.css */
+
+[data-theme="dark"] {
+  --bg-body: #101612;
+  --bg-surface: #18211B;
+  --bg-surface-2: #202B24;
+
+  --text-primary: #F4F7F5;
+  --text-secondary: #C7D2CB;
+  --text-muted: #9AA79F;
+
+  --border-color: #344139;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.40);
+
+  /* Bootstrap components pick this up automatically via the --bs-* mapping in variables.css */
+}
+
+body {
+  transition: background-color var(--transition-base), color var(--transition-base);
+}

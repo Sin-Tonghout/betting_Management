@@ -1,0 +1,10 @@
+/* Breakpoint reference, matches Bootstrap 5 defaults:
+   sm 576  md 768  lg 992  xl 1200  xxl 1400 */
+
+@media (max-width: 991.98px) {
+  .app-sidebar { display: none; } /* becomes Bootstrap offcanvas when Dashboard is built, Phase 9 */
+}
+
+@media (max-width: 575.98px) {
+  .stat-card__value { font-size: 24px; }
+}
