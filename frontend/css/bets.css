@@ -1,0 +1,145 @@
+/* Betting management: list, filters, form, toast. Built on the design tokens. */
+
+/* ---------- Filters ---------- */
+.bt-filters {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-4, 16px);
+  margin-bottom: var(--space-4, 16px);
+}
+.bt-filter-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-3, 12px); }
+.bt-filter-grid label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.bt-filter-more { margin-top: var(--space-3, 12px); }
+.bt-filter-actions { display: flex; gap: var(--space-2, 8px); flex-wrap: wrap; margin-top: var(--space-3, 12px); }
+
+/* ---------- Summary ---------- */
+.bt-summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 8px) var(--space-5, 20px);
+  margin-bottom: var(--space-3, 12px); color: var(--text-muted); font-size: 14px;
+}
+.bt-summary strong { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.bt-summary .is-positive { color: var(--color-primary); }
+.bt-summary .is-negative { color: var(--color-danger); }
+.bt-summary-count { margin-right: auto; }
+
+/* ---------- Table (desktop) ---------- */
+.bt-table-wrap {
+  display: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  overflow-x: auto;
+}
+.bt-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.bt-table th {
+  padding: 12px 14px; text-align: left; white-space: nowrap;
+  font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--text-muted);
+  background: color-mix(in srgb, var(--border-color) 35%, var(--bg-surface));
+  border-bottom: 1px solid var(--border-color);
+}
+.bt-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.bt-table tr:last-child td { border-bottom: 0; }
+.bt-table tbody tr { transition: background-color .15s ease; }
+.bt-table tbody tr:hover { background: color-mix(in srgb, var(--color-primary) 5%, transparent); }
+.bt-num { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bt-match { font-weight: 600; min-width: 180px; }
+.bt-sub { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--text-muted); }
+.bt-sport { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.bt-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sport-accent, var(--text-muted)); flex: none; }
+.bt-pl.is-positive { color: var(--color-primary); font-weight: 600; }
+.bt-pl.is-negative { color: var(--color-danger); font-weight: 600; }
+.bt-actions { display: inline-flex; gap: 6px; }
+.bt-icon-btn {
+  display: inline-grid; place-items: center; width: 34px; height: 34px;
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--border-color); border-radius: var(--radius-sm, 8px);
+  text-decoration: none; cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.bt-icon-btn:hover { background: color-mix(in srgb, var(--color-primary) 8%, transparent); color: var(--text-primary); }
+.bt-icon-btn.is-danger:hover { background: color-mix(in srgb, var(--color-danger) 10%, transparent); color: var(--color-danger); border-color: var(--color-danger); }
+.bt-icon-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+/* ---------- Cards (mobile) ---------- */
+.bt-cards { display: grid; gap: var(--space-3, 12px); }
+.bt-card-actions { display: flex; gap: var(--space-2, 8px); margin-top: var(--space-3, 12px); }
+.bt-card-actions .btn { flex: 1; }
+
+/* Loading */
+.bt-skel { height: 56px; border-radius: var(--radius-md, 12px); background: var(--border-color); animation: db-pulse 1.4s ease-in-out infinite; margin-bottom: 10px; }
+
+/* ---------- Pagination ---------- */
+.bt-pagination { display: flex; justify-content: center; margin-top: var(--space-5, 20px); }
+.bt-pagination ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.bt-page-btn {
+  min-width: 40px; height: 40px; padding: 0 12px;
+  background: var(--bg-surface); color: var(--text-primary);
+  border: 1px solid var(--border-color); border-radius: var(--radius-sm, 8px);
+  font-weight: 500; cursor: pointer;
+}
+.bt-page-btn:hover:not([disabled]):not([aria-current]) { background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+.bt-page-btn[aria-current="page"] { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.bt-page-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.bt-page-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.bt-page-gap { display: grid; place-items: center; min-width: 24px; color: var(--text-muted); }
+
+/* ---------- Form ---------- */
+.bf-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5, 20px); align-items: start; }
+.bf-panel {
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px); padding: var(--space-5, 20px); margin-bottom: var(--space-4, 16px);
+}
+.bf-panel h2 { margin: 0 0 var(--space-4, 16px); font-size: 18px; font-weight: 600; }
+.bf-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4, 16px); }
+.bf-grid label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 500; }
+.bf-hint { display: block; margin-top: 4px; font-size: 12px; color: var(--text-muted); }
+.bf-calc {
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px); padding: var(--space-5, 20px);
+}
+.bf-calc h2 { margin: 0 0 var(--space-4, 16px); font-size: 16px; font-weight: 600; color: var(--text-muted); }
+.bf-calc dl { margin: 0; display: grid; gap: var(--space-4, 16px); }
+.bf-calc dt { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.bf-calc dd { margin: 2px 0 0; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bf-calc dd.is-positive { color: var(--color-primary); }
+.bf-calc dd.is-negative { color: var(--color-danger); }
+.bf-calc p { margin: var(--space-4, 16px) 0 0; font-size: 12px; color: var(--text-muted); }
+.bf-actions { display: flex; flex-wrap: wrap; gap: var(--space-3, 12px); }
+
+/* ---------- Toast ---------- */
+.toast-region { position: fixed; right: 16px; bottom: 16px; z-index: 2100; display: grid; gap: 8px; max-width: calc(100vw - 32px); }
+.toast-lite {
+  --tone: var(--color-info);
+  display: flex; align-items: center; gap: 10px; min-width: 240px;
+  padding: 12px 14px; background: var(--bg-surface); color: var(--text-primary);
+  border: 1px solid var(--border-color); border-left: 4px solid var(--tone);
+  border-radius: var(--radius-md, 12px); box-shadow: 0 6px 20px rgba(0, 0, 0, .14);
+  animation: db-fade-up .25s ease both;
+}
+.toast-lite--success { --tone: var(--color-primary); }
+.toast-lite--danger { --tone: var(--color-danger); }
+.toast-lite > i:first-child { color: var(--tone); }
+.toast-lite span { flex: 1; font-size: 14px; }
+.toast-lite__close { background: none; border: 0; color: var(--text-muted); padding: 2px 4px; cursor: pointer; }
+.toast-lite.is-leaving { opacity: 0; transform: translateY(6px); transition: opacity .2s ease, transform .2s ease; }
+
+/* ---------- Breakpoints ---------- */
+@media (min-width: 576px) {
+  .bt-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bf-grid .is-wide { grid-column: 1 / -1; }
+}
+@media (min-width: 768px) {
+  .bt-table-wrap { display: block; }
+  .bt-cards { display: none; }
+  .bt-filter-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+  .bf-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+  .bf-calc { position: sticky; top: 88px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bt-skel, .toast-lite { animation: none; }
+  .bt-table tbody tr, .bt-icon-btn { transition: none; }
+}

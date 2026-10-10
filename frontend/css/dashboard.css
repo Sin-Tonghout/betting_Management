@@ -1,0 +1,319 @@
+/* Dashboard + app shell. Built on the design tokens; fallbacks keep it safe if a token name differs. */
+
+/* ---------- App shell ---------- */
+.shell { display: flex; min-height: 100vh; }
+
+.shell-sidebar {
+  flex: 0 0 260px;
+  width: 260px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-direction: column;
+  gap: var(--space-6, 24px);
+  padding: var(--space-6, 24px) var(--space-4, 16px);
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+}
+
+.shell-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: 0 var(--space-3, 12px);
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.shell-brand i { color: var(--color-primary); font-size: 24px; }
+
+.shell-nav { display: flex; flex-direction: column; gap: 4px; }
+
+.shell-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: 10px 12px;
+  border-radius: var(--radius-md, 12px);
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+.shell-nav-link i { font-size: 18px; color: var(--text-muted); }
+.shell-nav-link:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  color: var(--text-primary);
+}
+.shell-nav-link.active {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.shell-nav-link.active i { color: var(--color-primary); }
+.shell-nav-link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+.shell-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.shell-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
+}
+.shell-search { flex: 1; max-width: 420px; }
+.shell-actions { display: flex; align-items: center; gap: var(--space-2, 8px); margin-left: auto; }
+
+.shell-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: 4px 8px 4px 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--text-primary);
+}
+.shell-user:hover { background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+.shell-user:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.shell-user-name { font-size: 14px; font-weight: 500; }
+.shell-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shell-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-5, 20px) var(--space-4, 16px) var(--space-8, 40px);
+}
+#page-content:focus { outline: none; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 2000;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm, 8px);
+}
+.skip-link:focus { left: 8px; }
+
+/* ---------- Page header ---------- */
+.db-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4, 16px);
+  margin-bottom: var(--space-6, 24px);
+}
+.db-title { margin: 0; font-size: 28px; font-weight: 700; }
+.db-subtitle { margin: 4px 0 0; color: var(--text-muted); }
+
+/* ---------- Grids ---------- */
+.db-grid { display: grid; gap: var(--space-5, 20px); margin-bottom: var(--space-5, 20px); }
+.db-stats { grid-template-columns: 1fr; }
+.db-charts-a, .db-charts-b { grid-template-columns: minmax(0, 1fr); }
+
+/* ---------- Stat cards ---------- */
+.db-stat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-6, 24px);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, .05));
+}
+.db-stat-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+.db-stat-value {
+  margin-top: var(--space-2, 8px);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.db-stat-value.is-positive { color: var(--color-primary); }
+.db-stat-value.is-negative { color: var(--color-danger); }
+.db-stat-sub { margin-top: 4px; min-height: 1.3em; color: var(--text-muted); font-size: 13px; }
+
+/* ---------- Panels (chart slots for Phase 10) ---------- */
+.db-panel {
+  min-width: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-6, 24px);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, .05));
+}
+.db-panel-title { margin: 0 0 var(--space-4, 16px); font-size: 18px; font-weight: 600; }
+.db-chart-slot {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md, 12px);
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---------- Recent bets ---------- */
+.db-section { margin-top: var(--space-7, 32px); }
+.db-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4, 16px);
+  margin-bottom: var(--space-4, 16px);
+}
+.db-section-head h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.db-link { color: var(--text-secondary); font-weight: 500; text-decoration: none; }
+.db-link:hover { color: var(--text-primary); text-decoration: underline; }
+
+.db-bets { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5, 20px); }
+
+.db-bet {
+  --sport-accent: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--sport-accent);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-5, 20px);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, .05));
+}
+.db-bet:not(.is-loading) { animation: db-fade-up .3s ease both; }
+.db-sport-football   { --sport-accent: var(--color-primary); }
+.db-sport-basketball { --sport-accent: var(--color-secondary); }
+.db-sport-tennis     { --sport-accent: var(--color-warning); }
+.db-sport-baseball   { --sport-accent: var(--color-danger); }
+.db-sport-volleyball { --sport-accent: var(--color-info); }
+
+.db-bet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3, 12px); }
+.db-sport { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+.db-result {
+  --tone: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tone) 14%, transparent);
+  color: color-mix(in srgb, var(--tone) 65%, var(--text-primary));
+  font-size: 12px;
+  font-weight: 600;
+}
+.db-result-won     { --tone: var(--color-primary); }
+.db-result-lost    { --tone: var(--color-danger); }
+.db-result-pending { --tone: var(--color-warning); }
+
+.db-bet-teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3, 12px);
+  margin: var(--space-4, 16px) 0;
+}
+.db-team { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+.db-team-away { text-align: right; }
+.db-score {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.db-bet-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3, 12px) var(--space-4, 16px);
+  margin: 0;
+}
+.db-bet-meta dt { color: var(--text-muted); font-size: 12px; font-weight: 500; }
+.db-bet-meta dd { margin: 0; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.db-bet-meta dd.is-positive { color: var(--color-primary); }
+.db-bet-meta dd.is-negative { color: var(--color-danger); }
+.db-bet-foot {
+  margin-top: var(--space-4, 16px);
+  padding-top: var(--space-3, 12px);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---------- States ---------- */
+.db-state {
+  grid-column: 1 / -1;
+  padding: var(--space-9, 48px) var(--space-6, 24px);
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  text-align: center;
+}
+.db-state > i { display: block; margin-bottom: var(--space-3, 12px); color: var(--text-muted); font-size: 36px; }
+.db-state h3 { margin: 0 0 var(--space-2, 8px); font-size: 20px; font-weight: 600; }
+.db-state p { max-width: 42ch; margin: 0 auto var(--space-5, 20px); color: var(--text-muted); }
+
+.db-skeleton {
+  display: inline-block;
+  width: 4.5ch;
+  height: .9em;
+  border-radius: 6px;
+  background: var(--border-color);
+  animation: db-pulse 1.4s ease-in-out infinite;
+}
+.db-bet.is-loading { min-height: 200px; animation: db-pulse 1.4s ease-in-out infinite; }
+
+@keyframes db-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes db-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .db-skeleton, .db-bet.is-loading, .db-bet:not(.is-loading) { animation: none; }
+  .shell-nav-link { transition: none; }
+}
+
+/* ---------- Breakpoints ---------- */
+@media (min-width: 576px) {
+  .db-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .shell-content { padding: var(--space-6, 24px) var(--space-6, 24px) var(--space-8, 40px); }
+  .db-title { font-size: 32px; }
+  .db-bets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+  .shell-topbar { padding: var(--space-3, 12px) var(--space-6, 24px); }
+  .db-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .db-charts-a { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  .db-charts-b { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+}
+@media (min-width: 1200px) {
+  .db-bets { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

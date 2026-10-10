@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Bets</title>
+
+  <script src="/js/theme-init.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/bets.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <main id="page-content" data-page="bets" tabindex="-1">
+
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" data-i18n="bet.title">My Bets</h1>
+        <p class="db-subtitle" data-i18n="bet.subtitle">Search, filter and manage your betting history</p>
+      </div>
+      <a class="btn btn-primary" href="/bets/create">
+        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        <span data-i18n="bet.newBet">New bet</span>
+      </a>
+    </div>
+
+    <!-- Filters -->
+    <section class="bt-filters" aria-label="Filters">
+      <div class="bt-filter-grid">
+        <div>
+          <label for="f-search" data-i18n="bet.filters.search">Search</label>
+          <input id="f-search" type="search" class="form-control" autocomplete="off"
+                 data-i18n-placeholder="bet.filters.searchPlaceholder" placeholder="Match, team, league or pick…">
+        </div>
+        <div>
+          <label for="f-sport" data-i18n="bet.filters.sport">Sport</label>
+          <select id="f-sport" class="form-select"></select>
+        </div>
+        <div>
+          <label for="f-result" data-i18n="bet.filters.result">Result</label>
+          <select id="f-result" class="form-select">
+            <option value="" data-i18n="bet.filters.allResults">All results</option>
+            <option value="won" data-i18n="dash.result.won">Won</option>
+            <option value="lost" data-i18n="dash.result.lost">Lost</option>
+            <option value="pending" data-i18n="dash.result.pending">Pending</option>
+            <option value="void" data-i18n="dash.result.void">Void</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-sort" data-i18n="bet.filters.sort">Sort by</label>
+          <select id="f-sort" class="form-select">
+            <option value="date:desc" data-i18n="bet.sort.dateDesc">Newest first</option>
+            <option value="date:asc" data-i18n="bet.sort.dateAsc">Oldest first</option>
+            <option value="profit:desc" data-i18n="bet.sort.profitDesc">Highest profit</option>
+            <option value="profit:asc" data-i18n="bet.sort.profitAsc">Biggest loss</option>
+            <option value="stake:desc" data-i18n="bet.sort.stakeDesc">Highest stake</option>
+            <option value="stake:asc" data-i18n="bet.sort.stakeAsc">Lowest stake</option>
+            <option value="odds:desc" data-i18n="bet.sort.oddsDesc">Highest odds</option>
+            <option value="odds:asc" data-i18n="bet.sort.oddsAsc">Lowest odds</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="f-more" class="bt-filter-more" hidden>
+        <div class="bt-filter-grid">
+          <div>
+            <label for="f-league" data-i18n="bet.filters.league">League</label>
+            <select id="f-league" class="form-select"></select>
+          </div>
+          <div>
+            <label for="f-betType" data-i18n="bet.filters.betType">Bet type</label>
+            <select id="f-betType" class="form-select"></select>
+          </div>
+          <div>
+            <label for="f-dateFrom" data-i18n="bet.filters.dateFrom">From date</label>
+            <input id="f-dateFrom" type="date" class="form-control">
+          </div>
+          <div>
+            <label for="f-dateTo" data-i18n="bet.filters.dateTo">To date</label>
+            <input id="f-dateTo" type="date" class="form-control">
+          </div>
+          <div>
+            <label for="f-minStake" data-i18n="bet.filters.minStake">Min stake</label>
+            <input id="f-minStake" type="number" min="0" step="0.01" inputmode="decimal" class="form-control">
+          </div>
+          <div>
+            <label for="f-maxStake" data-i18n="bet.filters.maxStake">Max stake</label>
+            <input id="f-maxStake" type="number" min="0" step="0.01" inputmode="decimal" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-filter-actions">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="f-toggle" aria-expanded="false" aria-controls="f-more">
+          <i class="bi bi-sliders" aria-hidden="true"></i>
+          <span id="f-toggle-label" data-i18n="bet.filters.more">More filters</span>
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="f-reset">
+          <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+          <span data-i18n="bet.filters.reset">Reset</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <div class="bt-summary" id="bt-summary" aria-live="polite"></div>
+
+    <!-- Results -->
+    <div id="bt-results" aria-live="polite" aria-busy="true"></div>
+    <nav class="bt-pagination" id="bt-pagination" data-i18n-aria="bet.page.label" aria-label="Pagination"></nav>
+
+  </main>
+
+  <!-- Delete confirmation -->
+  <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="delete-title" data-i18n="bet.deleteTitle">Delete this record?</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"><p class="mb-0" id="delete-text"></p></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-i18n="bet.cancel">Cancel</button>
+          <button type="button" class="btn btn-danger" id="delete-confirm" data-i18n="bet.delete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/translations/en.js"></script>
+  <script src="/translations/kh.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components/layout.js"></script>
+  <script src="/js/components/toast.js"></script>
+  <script src="/js/bets.js"></script>
+</body>
+</html>

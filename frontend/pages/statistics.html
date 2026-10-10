@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statistics</title>
+
+  <!-- Prevents a flash of the wrong theme -->
+  <script src="/js/theme-init.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/stats.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <main id="page-content" data-page="statistics" tabindex="-1">
+
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" data-i18n="stats.title">Statistics</h1>
+        <p class="db-subtitle" data-i18n="stats.subtitle">Analyze your betting performance</p>
+      </div>
+    </div>
+
+    <!-- Date range filter -->
+    <div class="st-filters" role="group" aria-label="Date range" data-i18n-aria-label="stats.rangeLabel">
+      <button type="button" class="st-chip" data-range="today" aria-pressed="false" data-i18n="stats.range.today">Today</button>
+      <button type="button" class="st-chip" data-range="7d" aria-pressed="false" data-i18n="stats.range.7d">7 Days</button>
+      <button type="button" class="st-chip" data-range="30d" aria-pressed="true" data-i18n="stats.range.30d">30 Days</button>
+      <button type="button" class="st-chip" data-range="3m" aria-pressed="false" data-i18n="stats.range.3m">3 Months</button>
+      <button type="button" class="st-chip" data-range="6m" aria-pressed="false" data-i18n="stats.range.6m">6 Months</button>
+      <button type="button" class="st-chip" data-range="1y" aria-pressed="false" data-i18n="stats.range.1y">1 Year</button>
+      <button type="button" class="st-chip" data-range="custom" aria-pressed="false" data-i18n="stats.range.custom">Custom</button>
+    </div>
+
+    <div class="st-custom d-none" id="st-custom">
+      <div>
+        <label class="form-label" for="st-from" data-i18n="stats.from">From</label>
+        <input type="date" class="form-control" id="st-from">
+      </div>
+      <div>
+        <label class="form-label" for="st-to" data-i18n="stats.to">To</label>
+        <input type="date" class="form-control" id="st-to">
+      </div>
+      <button type="button" class="btn btn-primary" id="st-apply" data-i18n="stats.apply">Apply</button>
+      <div class="text-danger small w-100 d-none" id="st-custom-error" role="alert"></div>
+    </div>
+
+    <div id="st-error" class="alert alert-danger d-none" role="alert">
+      <span data-i18n="stats.loadError">Something went wrong. Please try again.</span>
+      <button type="button" class="btn btn-sm btn-outline-danger ms-2" id="st-retry" data-i18n="actions.retry">Try again</button>
+    </div>
+
+    <div id="st-body" aria-busy="true">
+
+      <!-- Summary cards -->
+      <section class="db-grid db-stats" aria-label="Summary">
+        <div class="db-stat">
+          <div class="db-stat-label"><i class="bi bi-collection" aria-hidden="true"></i><span data-i18n="stats.totalBets">Total Bets</span></div>
+          <div class="db-stat-value" id="st-bets">—</div>
+          <div class="db-stat-sub" id="st-bets-sub"></div>
+        </div>
+        <div class="db-stat">
+          <div class="db-stat-label"><i class="bi bi-percent" aria-hidden="true"></i><span data-i18n="stats.winRate">Win Rate</span></div>
+          <div class="db-stat-value" id="st-winrate">—</div>
+          <div class="db-stat-sub" id="st-winrate-sub"></div>
+        </div>
+        <div class="db-stat">
+          <div class="db-stat-label"><i class="bi bi-coin" aria-hidden="true"></i><span data-i18n="stats.stake">Total Stake</span></div>
+          <div class="db-stat-value" id="st-stake">—</div>
+          <div class="db-stat-sub" id="st-stake-sub"></div>
+        </div>
+        <div class="db-stat">
+          <div class="db-stat-label"><i class="bi bi-cash-stack" aria-hidden="true"></i><span data-i18n="stats.profit">Profit / Loss</span></div>
+          <div class="db-stat-value" id="st-profit">—</div>
+          <div class="db-stat-sub" id="st-profit-sub"></div>
+        </div>
+      </section>
+
+      <div class="st-layout">
+        <article class="db-panel st-wide">
+          <h2 class="db-panel-title" data-i18n="stats.chart.profit">Profit over time</h2>
+          <div class="st-chart" data-st="profit"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.winLoss">Win / Loss / Pending</h2>
+          <div class="st-chart" data-st="winloss"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.compare">Stake vs Return</h2>
+          <div class="st-chart" data-st="compare"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.stake">Stake over time</h2>
+          <div class="st-chart" data-st="stake"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.monthly">Monthly performance</h2>
+          <div class="st-chart" data-st="monthly"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.sport">Sport performance</h2>
+          <div class="st-chart" data-st="sport"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.league">League performance</h2>
+          <div class="st-chart" data-st="league"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.betType">Bet type performance</h2>
+          <div class="st-chart" data-st="bettype"></div>
+        </article>
+
+        <article class="db-panel">
+          <h2 class="db-panel-title" data-i18n="stats.chart.odds">Odds distribution</h2>
+          <div class="st-chart" data-st="odds"></div>
+        </article>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/translations/en.js"></script>
+  <script src="/translations/kh.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components/layout.js"></script>
+  <script src="/js/stats.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bet</title>
+
+  <script src="/js/theme-init.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/bets.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <main id="page-content" data-page="bets" tabindex="-1">
+
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" id="form-title" data-i18n="bet.form.createTitle">New bet</h1>
+        <p class="db-subtitle" id="form-subtitle" data-i18n="bet.form.createSub">Record a new sports bet</p>
+      </div>
+      <a class="btn btn-outline-secondary" href="/bets">
+        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+        <span data-i18n="bet.form.back">Back to bets</span>
+      </a>
+    </div>
+
+    <div id="form-state" aria-live="polite"></div>
+
+    <form id="bet-form" novalidate hidden>
+      <div class="bf-layout">
+        <div>
+          <!-- Match -->
+          <section class="bf-panel" aria-labelledby="h-match">
+            <h2 id="h-match" data-i18n="bet.form.match">Match</h2>
+            <div class="bf-grid">
+              <div>
+                <label for="sportId" data-i18n="bet.form.sport">Sport</label>
+                <select id="sportId" name="sportId" class="form-select" required aria-describedby="err-sportId"></select>
+                <div class="invalid-feedback" id="err-sportId"></div>
+              </div>
+              <div>
+                <label for="league" data-i18n="bet.form.league">League</label>
+                <input id="league" name="league" class="form-control" list="league-list" maxlength="100" autocomplete="off" aria-describedby="err-league hint-league">
+                <datalist id="league-list"></datalist>
+                <span class="bf-hint" id="hint-league" data-i18n="bet.form.leagueHint">Pick a league or type your own</span>
+                <div class="invalid-feedback" id="err-league"></div>
+              </div>
+              <div>
+                <label for="homeTeam" data-i18n="bet.form.home">Home team</label>
+                <input id="homeTeam" name="homeTeam" class="form-control" maxlength="100" required aria-describedby="err-homeTeam">
+                <div class="invalid-feedback" id="err-homeTeam"></div>
+              </div>
+              <div>
+                <label for="awayTeam" data-i18n="bet.form.away">Away team</label>
+                <input id="awayTeam" name="awayTeam" class="form-control" maxlength="100" required aria-describedby="err-awayTeam">
+                <div class="invalid-feedback" id="err-awayTeam"></div>
+              </div>
+              <div>
+                <label for="homeScore" data-i18n="bet.form.homeScore">Home score</label>
+                <input id="homeScore" name="homeScore" type="number" min="0" max="999" step="1" inputmode="numeric" class="form-control" aria-describedby="err-homeScore">
+                <div class="invalid-feedback" id="err-homeScore"></div>
+              </div>
+              <div>
+                <label for="awayScore" data-i18n="bet.form.awayScore">Away score</label>
+                <input id="awayScore" name="awayScore" type="number" min="0" max="999" step="1" inputmode="numeric" class="form-control" aria-describedby="err-awayScore">
+                <div class="invalid-feedback" id="err-awayScore"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Bet -->
+          <section class="bf-panel" aria-labelledby="h-bet">
+            <h2 id="h-bet" data-i18n="bet.form.bet">Bet</h2>
+            <div class="bf-grid">
+              <div>
+                <label for="betType" data-i18n="bet.form.betType">Bet type</label>
+                <select id="betType" name="betType" class="form-select" required aria-describedby="err-betType"></select>
+                <div class="invalid-feedback" id="err-betType"></div>
+              </div>
+              <div>
+                <label for="selection" data-i18n="bet.form.selection">Selection (your pick)</label>
+                <input id="selection" name="selection" class="form-control" maxlength="150" required aria-describedby="err-selection">
+                <div class="invalid-feedback" id="err-selection"></div>
+              </div>
+              <div>
+                <label for="odds" data-i18n="bet.form.odds">Odds</label>
+                <input id="odds" name="odds" type="number" min="1.01" step="0.01" inputmode="decimal" class="form-control" required aria-describedby="err-odds">
+                <div class="invalid-feedback" id="err-odds"></div>
+              </div>
+              <div>
+                <label for="stake" data-i18n="bet.form.stake">Stake</label>
+                <input id="stake" name="stake" type="number" min="0.01" step="0.01" inputmode="decimal" class="form-control" required aria-describedby="err-stake">
+                <div class="invalid-feedback" id="err-stake"></div>
+              </div>
+              <div>
+                <label for="betDate" data-i18n="bet.form.date">Bet date</label>
+                <input id="betDate" name="betDate" type="date" class="form-control" required aria-describedby="err-betDate">
+                <div class="invalid-feedback" id="err-betDate"></div>
+              </div>
+              <div>
+                <label for="categoryId" data-i18n="bet.form.category">Category</label>
+                <select id="categoryId" name="categoryId" class="form-select" aria-describedby="err-categoryId"></select>
+                <div class="invalid-feedback" id="err-categoryId"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Outcome -->
+          <section class="bf-panel" aria-labelledby="h-outcome">
+            <h2 id="h-outcome" data-i18n="bet.form.outcome">Outcome</h2>
+            <div class="bf-grid">
+              <div>
+                <label for="result" data-i18n="bet.form.result">Result</label>
+                <select id="result" name="result" class="form-select" aria-describedby="err-result">
+                  <option value="pending" data-i18n="dash.result.pending">Pending</option>
+                  <option value="won" data-i18n="dash.result.won">Won</option>
+                  <option value="lost" data-i18n="dash.result.lost">Lost</option>
+                  <option value="void" data-i18n="dash.result.void">Void</option>
+                </select>
+                <div class="invalid-feedback" id="err-result"></div>
+              </div>
+              <div id="status-wrap">
+                <label for="status" data-i18n="bet.form.status">Status</label>
+                <select id="status" name="status" class="form-select">
+                  <option value="upcoming" data-i18n="bet.status.upcoming">Upcoming</option>
+                  <option value="live" data-i18n="bet.status.live">Live</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- Notes -->
+          <section class="bf-panel" aria-labelledby="h-notes">
+            <h2 id="h-notes" data-i18n="bet.form.extra">Notes</h2>
+            <label for="notes" class="visually-hidden" data-i18n="bet.form.notes">Notes</label>
+            <textarea id="notes" name="notes" rows="4" maxlength="2000" class="form-control"
+                      data-i18n-placeholder="bet.form.notesPlaceholder" placeholder="Anything worth remembering about this bet (optional)"
+                      aria-describedby="err-notes"></textarea>
+            <div class="invalid-feedback" id="err-notes"></div>
+          </section>
+
+          <div class="bf-actions">
+            <button type="submit" class="btn btn-primary" id="save-btn">
+              <i class="bi bi-check-lg" aria-hidden="true"></i>
+              <span id="save-label" data-i18n="bet.form.save">Save bet</span>
+            </button>
+            <a class="btn btn-outline-secondary" href="/bets" data-i18n="bet.cancel">Cancel</a>
+          </div>
+        </div>
+
+        <aside class="bf-calc" aria-labelledby="h-calc">
+          <h2 id="h-calc" data-i18n="bet.calc.title">Calculated for you</h2>
+          <dl>
+            <div><dt data-i18n="bet.calc.potential">Potential return</dt><dd id="calc-potential" aria-live="polite">—</dd></div>
+            <div><dt data-i18n="bet.calc.profit">Profit / Loss</dt><dd id="calc-profit" aria-live="polite">—</dd></div>
+          </dl>
+          <p data-i18n="bet.calc.note">Profit / Loss is filled in once the result is Won or Lost.</p>
+        </aside>
+      </div>
+    </form>
+  </main>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/translations/en.js"></script>
+  <script src="/translations/kh.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components/layout.js"></script>
+  <script src="/js/components/toast.js"></script>
+  <script src="/js/bet-form.js"></script>
+</body>
+</html>

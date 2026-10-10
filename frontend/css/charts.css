@@ -1,0 +1,339 @@
+/* ---------- Shared ---------- */
+.db-chart-slot.ch-ready {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+.ch-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ch-axis text {
+  fill: var(--text-muted);
+  font-size: 12.5px;
+}
+.ch-grid line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+.ch-zero {
+  stroke: var(--text-muted);
+  stroke-width: 1.25;
+  stroke-dasharray: 5 5;
+  opacity: 0.7;
+}
+.ch-pos {
+  --c: var(--color-primary);
+}
+.ch-neg {
+  --c: var(--color-danger);
+}
+.ch-line {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.ch-area {
+  fill: var(--c);
+  opacity: 0.16;
+}
+.ch-dot {
+  fill: var(--bg-surface);
+  stroke-width: 2.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ch-dot.is-pos {
+  stroke: var(--color-primary);
+}
+.ch-dot.is-neg {
+  stroke: var(--color-danger);
+}
+.ch-hover-line {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  opacity: 0;
+}
+.ch-hover-dot {
+  fill: var(--bg-surface);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  opacity: 0;
+}
+.ch-wrap {
+  position: relative;
+}
+.ch-tip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: nowrap;
+  z-index: 5;
+  transform: translate(-50%, -115%);
+}
+.ch-tip strong {
+  display: block;
+  font-weight: 600;
+}
+.ch-empty {
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  font-size: 14px;
+}
+.text-win {
+  color: var(--color-primary);
+}
+.text-loss {
+  color: var(--color-danger);
+}
+
+/* ---------- Donut ---------- */
+.ch-donut-layout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ch-donut {
+  width: 190px;
+  height: 190px;
+  flex: none;
+}
+.ch-donut circle {
+  fill: none;
+  stroke-width: 16;
+}
+.ch-donut .track {
+  stroke: var(--border-color);
+}
+.ch-donut-center {
+  fill: var(--text-primary);
+  font-size: 26px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+.ch-donut-sub {
+  fill: var(--text-muted);
+  font-size: 11px;
+  text-anchor: middle;
+}
+.ch-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+  min-width: 150px;
+}
+.ch-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+}
+.ch-legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.ch-legend .n {
+  margin-left: auto;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Sport bars ---------- */
+.ch-sports {
+  display: grid;
+  gap: var(--space-4);
+}
+.ch-sport-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.ch-sport-head .name {
+  font-weight: 600;
+}
+.ch-sport-head .meta {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.ch-bar-track {
+  height: 10px;
+  background: var(--border-color);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.ch-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--sport, #8a948d);
+  transition: width 0.9s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.ch-sport--football {
+  --sport: var(--color-primary);
+}
+.ch-sport--basketball {
+  --sport: var(--color-secondary);
+}
+.ch-sport--tennis {
+  --sport: var(--color-warning);
+}
+.ch-sport--baseball {
+  --sport: var(--color-danger);
+}
+.ch-sport--volleyball {
+  --sport: var(--color-info);
+}
+
+/* ---------- Odds columns ---------- */
+.ch-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  align-items: end;
+  height: 220px;
+}
+.ch-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  gap: 6px;
+}
+.ch-col .val {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ch-col .bar {
+  width: 100%;
+  max-width: 56px;
+  border-radius: 8px 8px 0 0;
+  background: var(--color-info);
+  min-height: 2px;
+  transition: height 0.9s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.ch-col .lbl {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Animations ---------- */
+/* Card entrance */
+.ch-panel-enter {
+  animation: ch-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--enter-delay, 0s);
+}
+@keyframes ch-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Trend: line draws left→right, area fades in, dots pop one by one */
+.ch-anim .ch-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ch-draw 1.5s cubic-bezier(0.4, 0.1, 0.2, 1) 0.25s forwards;
+}
+.ch-anim .ch-area {
+  opacity: 0;
+  animation: ch-area-in 0.9s ease 1s forwards;
+}
+.ch-anim .ch-dot {
+  opacity: 0;
+  transform: scale(0.2);
+  animation: ch-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) forwards;
+  animation-delay: calc(0.5s + var(--i, 0) * 38ms);
+}
+@keyframes ch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ch-area-in {
+  to {
+    opacity: 0.16;
+  }
+}
+@keyframes ch-pop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Donut center + legend, sport rows, odds columns */
+.ch-anim .ch-donut-center,
+.ch-anim .ch-donut-sub {
+  opacity: 0;
+  animation: ch-fade 0.6s ease 0.3s forwards;
+}
+.ch-anim .ch-legend li {
+  opacity: 0;
+  animation: ch-rise 0.5s ease forwards;
+  animation-delay: calc(0.5s + var(--i, 0) * 0.12s);
+}
+.ch-sports.ch-anim .ch-sport {
+  opacity: 0;
+  animation: ch-rise 0.5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.1s);
+}
+.ch-cols.ch-anim .ch-col .lbl {
+  opacity: 0;
+  animation: ch-fade 0.5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.12s + 0.3s);
+}
+@keyframes ch-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Re-renders (language switch / resize) stay still */
+.ch-static,
+.ch-static * {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-panel-enter,
+  .ch-anim *,
+  .ch-bar-fill,
+  .ch-col .bar,
+  .ch-tip {
+    animation: none !important;
+    transition: none !important;
+  }
+}

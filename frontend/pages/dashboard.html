@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+
+  <!-- Prevents a flash of the wrong theme -->
+    <script src="/js/theme-init.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/charts.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <main id="page-content" data-page="dashboard" tabindex="-1">
+
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" data-i18n="dash.overview">Overview</h1>
+        <p class="db-subtitle" data-i18n="dash.subtitle">Your sports betting activity</p>
+      </div>
+      <a class="btn btn-primary" href="/bets/create">
+        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        <span data-i18n="dash.createBet">New bet</span>
+      </a>
+    </div>
+
+    <!-- Stat cards -->
+    <section class="db-grid db-stats" aria-label="Summary">
+      <div class="db-stat">
+        <div class="db-stat-label"><i class="bi bi-collection" aria-hidden="true"></i><span data-i18n="dash.totalBets">Total Bets</span></div>
+        <div class="db-stat-value" data-stat="totalBets"><span class="db-skeleton"></span></div>
+        <div class="db-stat-sub" data-stat-sub="totalBets"></div>
+      </div>
+      <div class="db-stat">
+        <div class="db-stat-label"><i class="bi bi-check-circle" aria-hidden="true"></i><span data-i18n="dash.won">Won</span></div>
+        <div class="db-stat-value" data-stat="won"><span class="db-skeleton"></span></div>
+        <div class="db-stat-sub" data-stat-sub="won"></div>
+      </div>
+      <div class="db-stat">
+        <div class="db-stat-label"><i class="bi bi-percent" aria-hidden="true"></i><span data-i18n="dash.winRate">Win Rate</span></div>
+        <div class="db-stat-value" data-stat="winRate"><span class="db-skeleton"></span></div>
+        <div class="db-stat-sub" data-stat-sub="winRate"></div>
+      </div>
+      <div class="db-stat">
+        <div class="db-stat-label"><i class="bi bi-cash-stack" aria-hidden="true"></i><span data-i18n="dash.profitLoss">Profit / Loss</span></div>
+        <div class="db-stat-value" data-stat="profitLoss"><span class="db-skeleton"></span></div>
+        <div class="db-stat-sub" data-stat-sub="profitLoss"></div>
+      </div>
+    </section>
+
+    <!-- Chart slots: Phase 10 fills these via [data-chart] -->
+    <div class="db-grid db-charts-a">
+      <article class="db-panel" data-chart="profit-loss">
+        <h2 class="db-panel-title" data-i18n="dash.chart.profitLoss">Profit / Loss Trend</h2>
+        <div class="db-chart-slot"><span data-i18n="dash.chart.placeholder">Chart appears here</span></div>
+      </article>
+      <article class="db-panel" data-chart="win-loss">
+        <h2 class="db-panel-title" data-i18n="dash.chart.winLoss">Win / Loss / Pending</h2>
+        <div class="db-chart-slot"><span data-i18n="dash.chart.placeholder">Chart appears here</span></div>
+      </article>
+    </div>
+
+    <div class="db-grid db-charts-b">
+      <article class="db-panel" data-chart="sport-performance">
+        <h2 class="db-panel-title" data-i18n="dash.chart.sport">Sport Performance</h2>
+        <div class="db-chart-slot"><span data-i18n="dash.chart.placeholder">Chart appears here</span></div>
+      </article>
+      <article class="db-panel" data-chart="odds-distribution">
+        <h2 class="db-panel-title" data-i18n="dash.chart.odds">Odds Distribution</h2>
+        <div class="db-chart-slot"><span data-i18n="dash.chart.placeholder">Chart appears here</span></div>
+      </article>
+    </div>
+
+    <!-- Recent bets -->
+    <section class="db-section" aria-labelledby="recent-title">
+      <div class="db-section-head">
+        <h2 id="recent-title" data-i18n="dash.recentBets">Recent Bets</h2>
+        <a class="db-link" href="/bets"><span data-i18n="dash.viewAll">View all</span> <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <div id="recent-bets" class="db-bets" aria-live="polite" aria-busy="true"></div>
+    </section>
+
+  </main>
+
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/translations/en.js"></script>
+  <script src="/translations/kh.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components/layout.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/charts.js"></script>
+</body>
+</html>

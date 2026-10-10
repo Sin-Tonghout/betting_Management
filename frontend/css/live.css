@@ -1,0 +1,91 @@
+
+.live-card {
+  background: var(--bs-body-bg, var(--bg-surface));
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--color-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.live-card.sport-football   { border-left-color: var(--color-primary); }
+.live-card.sport-basketball { border-left-color: var(--color-secondary); }
+.live-card.sport-tennis     { border-left-color: var(--color-warning); }
+.live-card.sport-baseball   { border-left-color: var(--color-danger); }
+.live-card.sport-volleyball { border-left-color: var(--color-info); }
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-danger);
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+.live-score {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.live-team { font-weight: 600; font-size: 16px; }
+
+.live-score-num {
+  font-size: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+}
+
+@media (min-width: 576px) {
+  .live-meta { grid-template-columns: repeat(4, 1fr); }
+}
+
+.live-meta dt { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+.live-meta dd { margin: 0; font-weight: 600; }
+
+.live-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.live-pick:hover,
+.live-pick:focus-visible { border-color: var(--color-primary); outline: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+}

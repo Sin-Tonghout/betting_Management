@@ -29,9 +29,11 @@
     });
   }
 
-  function setLanguage(lang) {
+    function setLanguage(lang) {
     localStorage.setItem(STORAGE_KEY, lang);
     applyTranslations();
+    // lets components re-render text that data-i18n can't reach
+    document.dispatchEvent(new CustomEvent('i18n:change', { detail: { lang } }));
   }
 
   document.addEventListener('DOMContentLoaded', () => {

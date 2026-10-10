@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS leagues (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  sport_id    INT UNSIGNED NOT NULL,
+  name        VARCHAR(100) NOT NULL,
+  slug        VARCHAR(100) NOT NULL,
+  status      ENUM('active','inactive') NOT NULL DEFAULT 'active',
+  created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_leagues_sport_slug (sport_id, slug),
+  CONSTRAINT fk_leagues_sport FOREIGN KEY (sport_id)
+    REFERENCES sports (id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Bets</title>
+
+  <!-- Prevents a flash of the wrong theme -->
+  <script src="/js/theme-init.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/live.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <main id="page-content" data-page="live" tabindex="-1">
+
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" data-i18n="live.title">Live Bets</h1>
+        <p class="db-subtitle" data-i18n="live.subtitle">Bets in play right now</p>
+      </div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#start-modal">
+        <i class="bi bi-broadcast" aria-hidden="true"></i>
+        <span data-i18n="live.start">Start a live bet</span>
+      </button>
+    </div>
+
+    <div id="live-list" class="row g-4" aria-live="polite"></div>
+
+  </main>
+
+  <!-- Update score modal -->
+  <div class="modal fade" id="score-modal" tabindex="-1" aria-labelledby="score-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="score-title" data-i18n="live.updateScore">Update score</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="fw-medium mb-3" id="score-match"></p>
+          <div class="row g-3">
+            <div class="col-5">
+              <label class="form-label" for="score-home" id="score-home-label"></label>
+              <input type="number" class="form-control" id="score-home" min="0" max="999">
+            </div>
+            <div class="col-5">
+              <label class="form-label" for="score-away" id="score-away-label"></label>
+              <input type="number" class="form-control" id="score-away" min="0" max="999">
+            </div>
+            <div class="col-2">
+              <label class="form-label" for="score-minute" data-i18n="live.minute">Min</label>
+              <input type="text" class="form-control" id="score-minute" maxlength="10" placeholder="67'">
+            </div>
+          </div>
+          <div class="text-danger small mt-3 d-none" id="score-error" role="alert"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-i18n="actions.cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="score-save" data-i18n="actions.save">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start live bet modal -->
+  <div class="modal fade" id="start-modal" tabindex="-1" aria-labelledby="start-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="start-title" data-i18n="live.startTitle">Choose a pending bet</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="start-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/translations/en.js"></script>
+  <script src="/translations/kh.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components/layout.js"></script>
+  <script src="/js/live.js"></script>
+</body>
+</html>
